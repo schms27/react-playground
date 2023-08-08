@@ -3,6 +3,34 @@ import ReactDOM from "react-dom/client";
 
 import "./index.css";
 
+const skills = [
+  {
+    skill: "Python",
+    level: "advanced",
+    color: "gray",
+  },
+  {
+    skill: "C#",
+    level: "advanced",
+    color: "green",
+  },
+  {
+    skill: "JavaScript",
+    level: "intermediate",
+    color: "red",
+  },
+  {
+    skill: "C++",
+    level: "beginner",
+    color: "yellow",
+  },
+  {
+    skill: "PyTorch",
+    level: "enthusiastic",
+    color: "darkgreen",
+  },
+];
+
 function App() {
   return (
     <div className="card">
@@ -15,7 +43,7 @@ function App() {
           name="Simon Schmid"
           text="Full-stack developer and data science enthusiast."
         />
-        <Skills />
+        <Skills skills={skills} />
       </div>
     </div>
   );
@@ -34,25 +62,30 @@ function Intro(props) {
   );
 }
 
-function Skills() {
+function Skills(props) {
   return (
-    <div className="skill-list">
-      <Skill desc="Python" emoji="👌" color="gray" />
-      <Skill desc="C#" emoji="👍" color="green" />
-      <Skill desc="JavaScript" emoji="🤞" color="red" />
-      <Skill desc="C++" emoji="🤔" color="yellow" />
-      <Skill desc="PyTorch" emoji="💖" color="darkgreen" />
+    <ul className="skill-list">
+      {props.skills.map((skill) => (
+        <Skill skillObj={skill} key={skill.skill} />
+      ))}
+    </ul>
+  );
+}
+
+function Skill({ skillObj }) {
+  return (
+    <div className="skill" style={{ backgroundColor: skillObj.color }}>
+      <span>{skillObj.skill}</span>
+      <Emojj level={skillObj.level} />
     </div>
   );
 }
 
-function Skill(props) {
-  return (
-    <div className="skill" style={{ backgroundColor: props.color }}>
-      <span>{props.desc}</span>
-      <span>{props.emoji}</span>
-    </div>
-  );
+function Emojj({ level }) {
+  if (level === "advanced") return <span>🙌</span>;
+  if (level === "intermediate") return <span>👍</span>;
+  if (level === "beginner") return <span>🤔</span>;
+  if (level === "enthusiastic") return <span>💖</span>;
 }
 
 const rootElement = document.getElementById("root");
