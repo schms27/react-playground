@@ -1,7 +1,8 @@
 {
-    "recommendations": [
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
-        "pkief.material-icon-theme"
-    ]
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "pkief.material-icon-theme",
+    "naumovs.color-highlight"
+  ]
 }
