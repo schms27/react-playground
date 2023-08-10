@@ -1,4 +1,7 @@
 import { useState } from "react";
+import ServiceLevelSelect from "./ServiceLevelSelect";
+import QuestionInput from "./QuestionInput";
+import Result from "./Result";
 
 function App() {
   const [bill, setBill] = useState(0);
@@ -32,45 +35,6 @@ function App() {
         friendsRating={friendTipPercentage}
       />
     </div>
-  );
-}
-
-function Result({ bill, yourRating, friendsRating }) {
-  const tipPercentage = Number((friendsRating + yourRating) / 2);
-  const tip = bill * tipPercentage;
-  const total = Number(tip + bill);
-  return (
-    <div>
-      <b>
-        You pay {total}$ ({bill}$ + {tip}$)
-      </b>
-    </div>
-  );
-}
-
-function QuestionInput({ question, children }) {
-  return (
-    <div>
-      <span>{question}</span>
-      {children}
-    </div>
-  );
-}
-
-function ServiceLevelSelect({ tipPercentage, setTipPercentage }) {
-  return (
-    <select
-      value={tipPercentage}
-      onChange={(e) => {
-        console.log("service level changed " + e.target.value);
-        setTipPercentage(Number(e.target.value));
-      }}
-    >
-      <option value="0">Dissatisfied (0%)</option>
-      <option value="0.05">It was ok (5%)</option>
-      <option value="0.1">It was good (10%)</option>
-      <option value="0.2">Amazing (20%)</option>
-    </select>
   );
 }
 
