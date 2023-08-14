@@ -29,6 +29,18 @@ function App() {
     setSelectedFriend((cur) => (cur?.id === friend.id ? null : friend));
   }
 
+  function handleSplitBill(value) {
+    setFriends((friends) =>
+      friends.map((friend) =>
+        friend.id === selectedFriend.id
+          ? { ...friend, balance: friend.balance + value }
+          : friend
+      )
+    );
+
+    setSelectedFriend(null);
+  }
+
   return (
     <div className="app">
       <div className="sidebar">
@@ -39,18 +51,24 @@ function App() {
         />
       </div>
 
-      <Form friend={selectedFriend} />
+      <Form friend={selectedFriend} onSplitBill={handleSplitBill} />
     </div>
   );
 }
 
-function Form({ friend }) {
+function Form({ friend, onSplitBill }) {
   const [billValue, setBillValue] = useState(0);
   const [yourExpense, setYourExpense] = useState(0);
+  const friendsExpense = billValue ? billValue - yourExpense : "";
   const [youPay, setYouPay] = useState(true);
+
+  function handleSubmit() {
+    onSplitBill(youPay ? friendsExpense : -yourExpense);
+  }
+
   if (!friend) return;
   return (
-    <form className="form-split-bill">
+    <form className="form-split-bill" onSubmit={handleSubmit}>
       <h2>Split a bill with {friend.name}</h2>
       <LabelledInput caption="🤑 Bill value">
         <input
@@ -65,25 +83,27 @@ function Form({ friend }) {
         ></input>
       </LabelledInput>
       <LabelledInput caption={`👨‍💼 ${friend.name}'s expense`}>
-        <input value={billValue - yourExpense} readOnly></input>
+        <input value={friendsExpense} readOnly></input>
       </LabelledInput>
-      <LabelledInput caption={`You pay`}>
+      <LabelledInput caption="🧾 You are paying the bill">
         <input
           type="checkbox"
-          value={youPay}
+          checked={youPay}
           onChange={(youPay) => setYouPay(!youPay)}
+          defaultChecked={youPay}
         ></input>
       </LabelledInput>
+      <button className="button">Split bill</button>
     </form>
   );
 }
 
 function LabelledInput({ caption, children }) {
   return (
-    <div>
+    <>
       <label>{caption}</label>
       {children}
-    </div>
+    </>
   );
 }
 
