@@ -25,7 +25,7 @@ export default function StarRating({
   color = "#fcc419",
   size = 48,
   defaultRating = 0,
-  onSetRating = {},
+  onSetRating = () => {},
 }) {
   const [rating, setRating] = useState(defaultRating);
   const [previewRating, setPreviewRating] = useState(0);
