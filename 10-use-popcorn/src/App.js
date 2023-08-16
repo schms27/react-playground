@@ -114,6 +114,15 @@ export default function App() {
     setSelectedId(null);
   }
 
+  function handleAddWatched(movie) {
+    setWatched((watched) => [...watched, movie]);
+    handleCloseMovieDetail();
+  }
+
+  function handleDeleteWatched(id) {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  }
+
   return (
     <>
       <Navbar>
@@ -135,11 +144,16 @@ export default function App() {
             <MovieDetails
               selectedId={selectedId}
               onCloseDetail={handleCloseMovieDetail}
+              onAddWatched={handleAddWatched}
+              watchedMovies={watched}
             />
           ) : (
             <>
               <Summary watched={watched} />
-              <WatchedList watched={watched} />
+              <WatchedList
+                watched={watched}
+                onDeleteWatched={handleDeleteWatched}
+              />
             </>
           )}
         </Box>
@@ -148,8 +162,18 @@ export default function App() {
   );
 }
 
-function MovieDetails({ selectedId, onCloseDetail }) {
+function MovieDetails({
+  selectedId,
+  onCloseDetail,
+  onAddWatched,
+  watchedMovies,
+}) {
   const [movie, setMovie] = useState({});
+  const [userRating, setUserRating] = useState(0);
+  const isWatched = watchedMovies.some((w) => w.imdbID === selectedId);
+  const watchedUserRating = watchedMovies.find(
+    (movie) => movie.imdbID === selectedId
+  )?.userRating;
   const {
     Title: title,
     Poster: poster,
@@ -175,6 +199,20 @@ function MovieDetails({ selectedId, onCloseDetail }) {
     },
     [selectedId]
   );
+
+  function handleAdd() {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      poster,
+      imdbRating: Number(imdbRating),
+      runtime: Number(runtime.split(" ").at(0)),
+      userRating: userRating,
+    };
+
+    onAddWatched(newWatchedMovie);
+  }
+
   return (
     <div className="details">
       <header>
@@ -195,9 +233,25 @@ function MovieDetails({ selectedId, onCloseDetail }) {
         </div>
       </header>
       <section>
-        <div className="rating">
-          <StarRating maxStars={10} size={24}></StarRating>
-        </div>
+        {!isWatched ? (
+          <div className="rating">
+            <StarRating
+              defaultRating={userRating}
+              maxStars={10}
+              size={24}
+              onSetRating={setUserRating}
+            ></StarRating>
+            {userRating > 0 && (
+              <button className="btn-add" onClick={handleAdd}>
+                + Add to watched
+              </button>
+            )}
+          </div>
+        ) : (
+          <p>
+            You rated this movie with {watchedUserRating} <span>🌟</span>
+          </p>
+        )}
 
         <p>
           <em>{plot}</em>
