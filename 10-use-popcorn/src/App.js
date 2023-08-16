@@ -68,34 +68,47 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const query = "interstellar";
+  const [query, setQuery] = useState("");
 
-  useEffect(function () {
-    async function fetchMovies() {
-      try {
-        setIsLoading(true);
-        const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`
-        );
-        if (!res.ok)
-          throw new Error("Something went wrong when fetching movies");
-        const data = await res.json();
-        setMovies(data.Search);
-      } catch (err) {
-        console.error(err.message);
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
+  useEffect(
+    function () {
+      async function fetchMovies() {
+        try {
+          setIsLoading(true);
+          setError("");
+          const res = await fetch(
+            `http://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`
+          );
+          if (!res.ok)
+            throw new Error("Something went wrong when fetching movies");
+          const data = await res.json();
+
+          if (data.Response === "False") throw new Error("Movie not found");
+          setMovies(data.Search);
+        } catch (err) {
+          console.error(err);
+          setError(err.message);
+        } finally {
+          setIsLoading(false);
+        }
       }
-    }
-    fetchMovies();
-  }, []);
+
+      if (query.length < 2) {
+        setMovies([]);
+        setError("");
+        return;
+      }
+
+      fetchMovies();
+    },
+    [query]
+  );
 
   return (
     <>
       <Navbar>
         <Logo />
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <Result movies={movies} />
       </Navbar>
 
@@ -103,7 +116,7 @@ export default function App() {
         <Box>
           {isLoading && <Loader />}
           {!isLoading && !error && <MovieList movies={movies} />}
-          {error && <Error message={error} />}
+          {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
           <Summary watched={watched} />
@@ -118,6 +131,6 @@ function Loader() {
   return <p className="loader">Loading...</p>;
 }
 
-function Error({ message }) {
+function ErrorMessage({ message }) {
   return <p className="error">{message}</p>;
 }
