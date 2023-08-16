@@ -60,13 +60,14 @@ const tempWatchedData = [
   },
 ];
 
-const API_KEY = "da488ea2";
+const API_KEY = "<USE-YOUR-KEY>";
 
 export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
 
   const [query, setQuery] = useState("");
 
@@ -86,7 +87,6 @@ export default function App() {
           if (data.Response === "False") throw new Error("Movie not found");
           setMovies(data.Search);
         } catch (err) {
-          console.error(err);
           setError(err.message);
         } finally {
           setIsLoading(false);
@@ -104,6 +104,14 @@ export default function App() {
     [query]
   );
 
+  function handleSelectMovie(id) {
+    setSelectedId((selectedId) => (id === selectedId ? null : id));
+  }
+
+  function handleCloseMovieDetail() {
+    setSelectedId(null);
+  }
+
   return (
     <>
       <Navbar>
@@ -115,15 +123,47 @@ export default function App() {
       <Main>
         <Box>
           {isLoading && <Loader />}
-          {!isLoading && !error && <MovieList movies={movies} />}
+          {!isLoading && !error && (
+            <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />
+          )}
           {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
-          <Summary watched={watched} />
-          <WatchedList watched={watched} />
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseDetail={handleCloseMovieDetail}
+            />
+          ) : (
+            <>
+              <Summary watched={watched} />
+              <WatchedList watched={watched} />
+            </>
+          )}
         </Box>
       </Main>
     </>
+  );
+}
+
+function MovieDetails({ selectedId, onCloseDetail }) {
+  useEffect(function () {
+    async function getMovieDetails() {
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${API_KEY}&i=${selectedId}`
+      );
+      const data = await res.json();
+      console.log(data);
+    }
+    getMovieDetails();
+  }, []);
+  return (
+    <div className="details">
+      <button className="btn-back" onClick={onCloseDetail}>
+        &larr;
+      </button>
+      {selectedId}
+    </div>
   );
 }
 
