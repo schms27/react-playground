@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useEffect } from "react";
 
 import Navbar from "./components/Navbar";
 import Main from "./components/Main";
@@ -14,27 +13,18 @@ import Summary from "./components/Summary";
 import WatchedList from "./components/WatchedList";
 import { MovieDetails } from "./components/MovieDetails";
 import { useMovies } from "./hooks/useMovies";
+import { useLocalStorageState } from "./hooks/useLocalStorageState";
 
 export const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
 export default function App() {
-  const [watched, setWatched] = useState(function () {
-    const storedValue = localStorage.getItem("watched");
-    return JSON.parse(storedValue);
-  });
+  const [watched, setWatched] = useLocalStorageState([], "watched");
 
   const [selectedId, setSelectedId] = useState(null);
 
   const [query, setQuery] = useState("");
 
   const { movies, isLoading, error } = useMovies(query);
-
-  useEffect(
-    function () {
-      localStorage.setItem("watched", JSON.stringify(watched));
-    },
-    [watched]
-  );
 
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
