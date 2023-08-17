@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import StarRating from "./StarRating";
 import { API_KEY } from "../App";
 
@@ -15,6 +14,15 @@ export function MovieDetails({
   const watchedUserRating = watchedMovies.find(
     (movie) => movie.imdbID === selectedId
   )?.userRating;
+  const countRef = useRef(0);
+
+  useEffect(
+    function () {
+      if (userRating) countRef.current = countRef.current + 1;
+    },
+    [userRating]
+  );
+
   const {
     Title: title,
     Poster: poster,
@@ -77,6 +85,7 @@ export function MovieDetails({
       imdbRating: Number(imdbRating),
       runtime: Number(runtime.split(" ").at(0)),
       userRating: userRating,
+      countRatingDecisions: countRef.current,
     };
 
     onAddWatched(newWatchedMovie);
