@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import StarRating from "./StarRating";
 import { API_KEY } from "../App";
+import { useKeydown } from "../hooks/useKeydown";
 
 export function MovieDetails({
   selectedId,
@@ -15,6 +16,8 @@ export function MovieDetails({
     (movie) => movie.imdbID === selectedId
   )?.userRating;
   const countRef = useRef(0);
+
+  useKeydown("Escape", onCloseDetail);
 
   useEffect(
     function () {
@@ -58,23 +61,6 @@ export function MovieDetails({
       };
     },
     [title]
-  );
-
-  useEffect(
-    function () {
-      function keydownCallback(e) {
-        if (e.code === "Escape") {
-          onCloseDetail();
-        }
-      }
-
-      document.addEventListener("keydown", keydownCallback);
-
-      return function cleanup() {
-        document.removeEventListener("keydown", keydownCallback);
-      };
-    },
-    [onCloseDetail]
   );
 
   function handleAdd() {
