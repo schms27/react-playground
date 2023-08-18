@@ -1,18 +1,33 @@
 /* eslint-disable react/prop-types */
-import styles from "./City.module.css";
+//import styles from "./City.module.css";
 
-const formatDate = (date) =>
+import { useParams, useSearchParams } from "react-router-dom";
+
+/*const formatDate = (date) =>
   new Intl.DateTimeFormat("en", {
     day: "numeric",
     month: "long",
     year: "numeric",
     weekday: "long",
-  }).format(new Date(date));
+  }).format(new Date(date));*/
 
-function City({ city }) {
-  const { cityName, emoji, date, notes } = city;
+function City() {
+  const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const lat = searchParams.get("lat");
+  const lng = searchParams.get("lng");
+
+  //const { cityName, emoji, date, notes } = city;
 
   return (
+    <>
+      <h1>City {id}</h1>
+      <p>
+        Position: {lat}, {lng}
+      </p>
+    </>
+  );
+  /*return (
     <div className={styles.city}>
       <div className={styles.row}>
         <h6>City name</h6>
@@ -44,9 +59,9 @@ function City({ city }) {
         </a>
       </div>
 
-      <div>{/*<ButtonBack />*/}</div>
+      <div>{<ButtonBack />}</div>
     </div>
-  );
+  );*/
 }
 
 export default City;
