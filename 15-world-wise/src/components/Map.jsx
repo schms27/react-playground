@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   MapContainer,
   TileLayer,
@@ -13,6 +13,7 @@ import styles from "./Map.module.css";
 import { useEffect, useState } from "react";
 import { useCities } from "../context/CitiesContext";
 import { useGeolocation } from "../hooks/useGeolocation";
+import { useUrlPosition } from "../hooks/useUrlPosition";
 import Button from "./Button";
 function Map() {
   const { cities } = useCities();
@@ -23,10 +24,7 @@ function Map() {
     getPosition,
   } = useGeolocation({ lat: mapPosition[0], lng: mapPosition[1] });
 
-  const [searchParams] = useSearchParams();
-  const currentLat = searchParams.get("lat");
-  const currentLng = searchParams.get("lng");
-
+  const [currentLat, currentLng] = useUrlPosition();
   useEffect(
     function () {
       if (currentLat && currentLng) setMapPosition([currentLat, currentLng]);
@@ -45,9 +43,12 @@ function Map() {
 
   return (
     <div className={styles.mapContainer}>
-      <Button type="position" onClick={getPosition}>
-        {isLoadingPosition ? "Loading..." : "Use your position"}
-      </Button>
+      {!geolocationPosition && (
+        <Button type="position" onClick={getPosition}>
+          {isLoadingPosition ? "Loading..." : "Use your position"}
+        </Button>
+      )}
+
       <MapContainer
         className={styles.map}
         center={mapPosition}
