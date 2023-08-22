@@ -13,18 +13,6 @@
       "id": 73930385
     },
     {
-      "cityName": "Madrid",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2027-07-15T08:22:53.976Z",
-      "notes": "",
-      "position": {
-        "lat": 40.46635901755316,
-        "lng": -3.7133789062500004
-      },
-      "id": 17806751
-    },
-    {
       "cityName": "Berlin",
       "country": "Germany",
       "emoji": "🇩🇪",
@@ -35,17 +23,6 @@
         "lng": 13.376933665713324
       },
       "id": 98443197
-    },
-    {
-      "cityName": "Prelouc",
-      "emoji": "🇨🇿",
-      "date": "2023-08-21T12:15:51.670Z",
-      "notes": "dfdfdf",
-      "position": {
-        "lat": "50.035973672195496",
-        "lng": "15.512695312500002"
-      },
-      "id": 98443198
     },
     {
       "cityName": "La Grande-Paroisse",
@@ -59,37 +36,38 @@
       "id": 98443199
     },
     {
-      "cityName": "Mena",
-      "emoji": "🇪🇹",
-      "date": "2023-07-31T12:18:40.000Z",
+      "cityName": "Puertomingalvo",
+      "country": "Spain",
+      "emoji": "🇪🇸",
+      "date": "2023-08-22T06:55:15.149Z",
       "notes": "",
       "position": {
-        "lat": "5.965753671065536",
-        "lng": "40.07812500000001"
+        "lat": "40.25437660372652",
+        "lng": "-0.44906616210937506"
       },
       "id": 98443200
     },
     {
-      "cityName": "Onda",
+      "cityName": "San Juan de Moro",
       "country": "Spain",
       "emoji": "🇪🇸",
-      "date": "2023-08-21T12:20:45.715Z",
+      "date": "2023-08-22T06:56:50.719Z",
       "notes": "",
       "position": {
-        "lat": "39.95501708352989",
-        "lng": "-0.24993896484375003"
+        "lat": "40.07281723396798",
+        "lng": "-0.15243530273437503"
       },
       "id": 98443201
     },
     {
-      "cityName": "Saint-Felix de Reillac",
-      "country": "France",
-      "emoji": "🇫🇷",
-      "date": "2023-08-21T12:27:44.883Z",
+      "cityName": "Zaragoza",
+      "country": "Spain",
+      "emoji": "🇪🇸",
+      "date": "2023-08-22T06:56:59.417Z",
       "notes": "",
       "position": {
-        "lat": "44.99588261816546",
-        "lng": "0.8789062500000001"
+        "lat": "41.672911819602085",
+        "lng": "-0.7141113281250001"
       },
       "id": 98443202
     }
