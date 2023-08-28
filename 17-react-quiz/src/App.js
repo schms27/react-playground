@@ -1,11 +1,11 @@
 import { useEffect, useReducer } from "react";
 
-import Header from "./Header";
-import Main from "./Main";
-import Loader from "./Loader";
-import Error from "./Error";
-import StartQuiz from "./StartQuiz";
-import Question from "./Question";
+import Header from "./components/Header";
+import Main from "./components/Main";
+import Loader from "./components/Loader";
+import Error from "./components/Error";
+import StartQuiz from "./components/StartQuiz";
+import Question from "./components/Question";
 import NextButton from "./components/NextButton";
 import Progress from "./components/Progress";
 import FinishScreen from "./components/FinishScreen";
