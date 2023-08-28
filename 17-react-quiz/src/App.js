@@ -31,7 +31,7 @@ function reducer(state, action) {
       return { ...state, status: "error" };
 
     case "start":
-      return { ...state, status: "active" };
+      return { ...state, status: "active", answer: null, index: 0, points: 0 };
 
     case "next":
       return {
@@ -119,6 +119,7 @@ function App() {
             points={points}
             maxPossiblePoints={maxPossiblePoints}
             highscore={highscore}
+            dispatch={dispatch}
           />
         )}
       </Main>
