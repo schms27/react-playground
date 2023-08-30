@@ -16,14 +16,20 @@ function Calculator({ workouts, allowSound }) {
     [number, sets, speed, durationBreak]
   );
 
+  useEffect(
+    function () {
+      function playSound() {
+        if (!allowSound) return;
+        const sound = new Audio(clickSound);
+        sound.play();
+      }
+      playSound();
+    },
+    [duration, allowSound]
+  );
+
   const mins = Math.floor(duration);
   const seconds = (duration - mins) * 60;
-
-  const playSound = function () {
-    if (!allowSound) return;
-    const sound = new Audio(clickSound);
-    sound.play();
-  };
 
   function handleIncreaseTime() {
     setDuration((duration) => Math.floor(duration) + 1);
